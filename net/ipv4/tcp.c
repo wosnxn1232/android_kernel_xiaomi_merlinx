@@ -2791,27 +2791,40 @@ static int do_tcp_setsockopt(struct sock *sk, int level,
 		break;
 
 	case TCP_FASTOPEN:
-		if (val >= 0 && ((1 << sk->sk_state) & (TCPF_CLOSE |
-		    TCPF_LISTEN))) {
-			tcp_fastopen_init_key_once(net);
+	    if (val >= 0 && ((1 << sk->sk_state) & (TCPF_CLOSE | TCPF_LISTEN))) {
+	        struct net *net = sock_net(sk);
+	        if (net) {
+	            tcp_fastopen_init_key_once(net);
+        	    fastopen_queue_tune(sk, val);
+	        } else {
+            err = -EINVAL;
+	        }
+	    } else {
+	        err = -EINVAL;
+	    }
+	    break;
 
-			fastopen_queue_tune(sk, val);
-		} else {
-			err = -EINVAL;
-		}
-		break;
 	case TCP_FASTOPEN_CONNECT:
-		if (val > 1 || val < 0) {
-			err = -EINVAL;
-		} else if (net->ipv4.sysctl_tcp_fastopen & TFO_CLIENT_ENABLE) {
-			if (sk->sk_state == TCP_CLOSE)
-				tp->fastopen_connect = val;
-			else
-				err = -EINVAL;
-		} else {
-			err = -EOPNOTSUPP;
-		}
-		break;
+	    if (val > 1 || val < 0) {
+	        err = -EINVAL;
+	    } else {
+	        struct net *net = sock_net(sk);
+	        if (net) {
+	            if (net->ipv4.sysctl_tcp_fastopen & TFO_CLIENT_ENABLE) {
+	                if (sk->sk_state == TCP_CLOSE) {
+	                    tp->fastopen_connect = val;
+	                } else {
+	                    err = -EINVAL;
+	                }
+	            } else {
+	                err = -EOPNOTSUPP;
+	            }
+	        } else {
+	            err = -EINVAL;
+	        }
+	    }
+	    break;
+
 	case TCP_TIMESTAMP:
 		if (!tp->repair)
 			err = -EPERM;
