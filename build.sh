@@ -142,7 +142,7 @@ send_msg_telegram() {
 <b>*Device</b>: <code>${DEVICE}</code>
 <b>*Kernel Ver</b>: <code>$(make kernelversion 2>/dev/null)</code>
 <b>*Date</b>: <code>$(date)</code>
-<b>*Ziping</b>: <code>${zipn}</code>
+<b>*Zip</b>: <code>${zipn}</code>
 <b>*Defconfig</b>: <code>${DEFCONFIG}</code>
 <b>*Clang Ver</b>: <code>${KBUILD_COMPILER_STRING}</code>
 <b>*Branch</b>: <code>$(git rev-parse --abbrev-ref HEAD)</code>
@@ -163,7 +163,7 @@ send_msg_telegram() {
         -F chat_id="$chat_id" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="Build Succes! | Duration: ${minutes}m & ${seconds}s." \
+        -F caption="Build Succes! - Duration: ${minutes}min & ${seconds}secs." \
         -o /dev/null \
         -w "" >/dev/null 2>&1
       curl -s -F document=@./out/build.log "https://api.telegram.org/bot$token/sendDocument" \
