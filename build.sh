@@ -136,17 +136,17 @@ send_msg_telegram() {
         -d "disable_web_page_preview=true" \
         -d "parse_mode=html" \
         -d text="<b>——${TIMESTAMP}——</b>
-<b>*Build Started on ${BUILD_HOST}</b>
+<b>*Build Triggered ${BUILD_HOST}</b>
 <b>*Build status</b>: <code>${kver}</code>
 <b>*Builder</b>: <code>${BUILDER}</code>
 <b>*Device</b>: <code>${DEVICE}</code>
-<b>*Kernel Version</b>: <code>$(make kernelversion 2>/dev/null)</code>
+<b>*Kernel Ver</b>: <code>$(make kernelversion 2>/dev/null)</code>
 <b>*Date</b>: <code>$(date)</code>
-<b>*Zip Name</b>: <code>${zipn}</code>
+<b>*Ziping</b>: <code>${zipn}</code>
 <b>*Defconfig</b>: <code>${DEFCONFIG}</code>
-<b>*Compiler</b>: <code>${KBUILD_COMPILER_STRING}</code>
+<b>*Clang Ver</b>: <code>${KBUILD_COMPILER_STRING}</code>
 <b>*Branch</b>: <code>$(git rev-parse --abbrev-ref HEAD)</code>
-<b>*Last Commit</b>: <code>$(git log --format="%s" -n 1): $(git log --format="%h" -n 1)</code>" \
+<b>*Head</b>: <code>$(git log --format="%h" -n 1)</code>" \
         -o /dev/null
       ;;
     2)
@@ -163,7 +163,7 @@ send_msg_telegram() {
         -F chat_id="$chat_id" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="Build Succes!/Duration: ${minutes}m & ${seconds}s." \
+        -F caption="Build Succes! | Duration: ${minutes}m & ${seconds}s." \
         -o /dev/null \
         -w "" >/dev/null 2>&1
       curl -s -F document=@./out/build.log "https://api.telegram.org/bot$token/sendDocument" \
