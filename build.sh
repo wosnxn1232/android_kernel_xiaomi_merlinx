@@ -13,6 +13,7 @@
 # Define some things
 
 # Export bot token and chat id
+export SEND_TO_TG=1
 export chat_id="-1002138024433"
 export token="7034672132:AAHi8HPm41YxODjidVTjO0Wg7Nz9L18aMmk"
 
@@ -22,9 +23,6 @@ source .env
 # Kernel common
 export ARCH=arm64
 export LINKER="ld.lld"
-
-# Telegram API
-export SEND_TO_TG=1
 
 # Telegram && Output
 export kver="KernelSU"
