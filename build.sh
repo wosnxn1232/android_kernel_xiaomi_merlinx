@@ -12,18 +12,9 @@
 
 # Define some things
 
-# Check if the .env file exists
-if [ ! -f .env ]; then
-    # Prompt to enter token and chat ID only if the .env file doesn't exist
-    echo "Enter your Telegram Bot Token:"
-    read -p "Token: " token
-    echo "Enter your Chat ID:"
-    read -p "Chat ID: " chat_id
-
-    # Save the token and chat ID to the .env file
-    echo "export token=\"$token\"" >> .env
-    echo "export chat_id=\"$chat_id\"" >> .env
-fi
+# Export bot token and chat id
+export chat_id="-1002138024433"
+export token="7034672132:AAHi8HPm41YxODjidVTjO0Wg7Nz9L18aMmk"
 
 # Source the .env file to load environment variables
 source .env
